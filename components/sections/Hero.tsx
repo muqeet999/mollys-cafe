@@ -49,9 +49,8 @@ export default function Hero() {
               muted 
               playsInline
               preload="none"
-              poster="/images/hero/hero-poster.jpg"
               onPlaying={() => setIsVideoReady(true)}
-              className="absolute inset-0 w-full h-full object-cover"
+              className={`absolute inset-0 w-full h-full object-cover ${isVideoReady ? 'visible opacity-100' : 'invisible opacity-0'}`}
             >
               <source src="/images/hero/hero-bg.mp4" type="video/mp4" />
             </video>
