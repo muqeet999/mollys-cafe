@@ -6,12 +6,20 @@ import Image from "next/image";
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [mounted, setMounted] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Force play dynamically injected video
+  useEffect(() => {
+    if (mounted && videoRef.current) {
+      videoRef.current.play().catch(e => console.warn("AutoPlay blocked", e));
+    }
+  }, [mounted]);
 
   const { scrollY, scrollYProgress } = useScroll({
     target: ref,
@@ -41,22 +49,8 @@ export default function Hero() {
           }}
           className="absolute inset-0 w-full h-full origin-center bg-[#1A1817]"
         >
-          {/* Video Background (Bottom Layer) */}
-          {mounted && (
-            <video 
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              onPlaying={() => setIsVideoReady(true)}
-              className="absolute inset-0 w-full h-full object-cover"
-            >
-              <source src="/images/hero/hero-bg.mp4" type="video/mp4" />
-            </video>
-          )}
-
-          {/* Optimized Priority Poster (Top Layer) */}
-          <div className={`absolute inset-0 w-full h-full z-10 transition-opacity duration-1000 ease-in-out ${isVideoReady ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+          {/* Optimized Priority Poster (Bottom Layer) */}
+          <div className="absolute inset-0 w-full h-full z-0">
             <Image
               src="/images/hero/hero-poster.jpg"
               alt="Molly's Cafe Background"
@@ -65,6 +59,21 @@ export default function Hero() {
               className="object-cover"
             />
           </div>
+
+          {/* Video Background (Top Layer, fading in) */}
+          {mounted && (
+            <video 
+              ref={videoRef}
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              onPlaying={() => setIsVideoReady(true)}
+              className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-1000 ease-in-out ${isVideoReady ? 'opacity-100' : 'opacity-0'}`}
+            >
+              <source src="/images/hero/hero-bg.mp4" type="video/mp4" />
+            </video>
+          )}
           
           <div className="absolute inset-0 bg-gradient-to-b from-[#1A1817]/60 via-transparent to-[#1A1817] pointer-events-none" />
         </motion.div>
@@ -78,6 +87,9 @@ export default function Hero() {
         />
 
 
+
+        {/* Persistent Bottom Gradient for smooth section transition */}
+        <div className="absolute bottom-0 left-0 w-full h-32 md:h-48 bg-gradient-to-t from-[#1A1817] to-transparent z-30 pointer-events-none" />
 
         {/* Header Spacer - preserves layout while StickyNav handles real navigation */}
         <div className="w-full h-[72px] md:h-[96px] shrink-0" />
