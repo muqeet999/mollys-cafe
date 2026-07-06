@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import MenuGalleryModal from "@/components/ui/MenuGalleryModal";
+import Link from "next/link";
 
 const HIGHLIGHTS = [
   {
@@ -80,7 +81,7 @@ export default function Menu() {
           </div>
 
           <div className="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-24 border-t border-espresso/10 pt-20 md:pt-24">
-              <a 
+              <Link 
                 href="/menu"
                 className="group relative flex items-center gap-6 cursor-pointer"
                 aria-label="View Full Menu"
@@ -91,7 +92,7 @@ export default function Menu() {
                 <div className="w-12 md:w-24 h-[1px] bg-espresso/30 group-hover:w-16 md:group-hover:w-32 group-hover:bg-cinnamon transition-all duration-500 ease-out relative">
                   <span className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 border-t border-r border-espresso/30 group-hover:border-cinnamon rotate-45 transition-colors duration-500" />
                 </div>
-              </a>
+              </Link>
 
               <div className="hidden md:block w-[1px] h-12 bg-espresso/10" />
 

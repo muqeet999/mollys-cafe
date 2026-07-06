@@ -139,10 +139,10 @@ export default function StickyNav() {
               {NAV_LINKS.map((item, i) => (
                 <motion.div
                   key={item.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.5, delay: i * 0.1 + 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4, delay: i * 0.1 + 0.2, ease: "easeOut" }}
                 >
                   {item.isExternal ? (
                     <a

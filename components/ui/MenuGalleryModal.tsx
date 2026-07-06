@@ -39,7 +39,6 @@ export default function MenuGalleryModal({ isOpen, onClose }: Props) {
     if (!isOpen) return;
 
     document.body.style.overflow = "hidden";
-    window.lenis?.stop();
     
     // Push state so the browser back button closes the modal
     window.history.pushState({ menuModal: true }, "", "#full-menu");
@@ -52,7 +51,6 @@ export default function MenuGalleryModal({ isOpen, onClose }: Props) {
     
     return () => {
       document.body.style.overflow = "";
-      window.lenis?.start();
       window.removeEventListener("popstate", handlePopState);
       
       // Clean up hash if still present
@@ -133,7 +131,10 @@ export default function MenuGalleryModal({ isOpen, onClose }: Props) {
           </div>
 
           {/* Gallery Scroll */}
-          <div className="w-full h-full overflow-y-auto overflow-x-hidden md:overflow-x-auto md:overflow-y-hidden flex flex-col md:flex-row items-center gap-12 md:gap-24 px-6 py-32 md:px-[20vw] md:py-0 snap-y md:snap-x snap-mandatory hide-scrollbar">
+          <div 
+            data-lenis-prevent="true"
+            className="w-full h-full overflow-y-auto overflow-x-hidden md:overflow-x-auto md:overflow-y-hidden flex flex-col md:flex-row items-center gap-12 md:gap-24 px-6 py-32 md:px-[20vw] md:py-0 snap-y md:snap-x snap-mandatory hide-scrollbar"
+          >
             
             <div className="hidden md:block shrink-0 w-1" />
 
