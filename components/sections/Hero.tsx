@@ -57,6 +57,7 @@ export default function Hero() {
               muted 
               playsInline
               preload="none"
+              poster="/images/hero/hero-poster.jpg"
               onCanPlay={() => setIsVideoReady(true)}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${isVideoReady ? 'opacity-100' : 'opacity-0'}`}
             >
