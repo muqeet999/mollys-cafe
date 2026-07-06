@@ -14,12 +14,12 @@ export default function Hero() {
     setMounted(true);
   }, []);
 
-  // Force play dynamically injected video
+  // Force play video on mount to ensure autoplay starts
   useEffect(() => {
-    if (mounted && videoRef.current) {
-      videoRef.current.play().catch(e => console.warn("AutoPlay blocked", e));
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
     }
-  }, [mounted]);
+  }, []);
 
   const { scrollY, scrollYProgress } = useScroll({
     target: ref,
@@ -61,19 +61,18 @@ export default function Hero() {
           </div>
 
           {/* Video Background (Top Layer, fading in) */}
-          {mounted && (
-            <video 
-              ref={videoRef}
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              onPlaying={() => setIsVideoReady(true)}
-              className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-1000 ease-in-out ${isVideoReady ? 'opacity-100' : 'opacity-0'}`}
-            >
-              <source src="/images/hero/hero-bg.mp4" type="video/mp4" />
-            </video>
-          )}
+          <video 
+            ref={videoRef}
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            preload="metadata"
+            onLoadedData={() => setIsVideoReady(true)}
+            className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-1000 ease-in-out ${isVideoReady ? 'opacity-100' : 'opacity-0'}`}
+          >
+            <source src="/images/hero/hero-bg.mp4" type="video/mp4" />
+          </video>
           
           <div className="absolute inset-0 bg-gradient-to-b from-[#1A1817]/60 via-transparent to-[#1A1817] pointer-events-none" />
         </motion.div>
