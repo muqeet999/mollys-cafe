@@ -48,9 +48,8 @@ export default function Hero() {
               loop 
               muted 
               playsInline
-              preload="none"
               onPlaying={() => setIsVideoReady(true)}
-              className={`absolute inset-0 w-full h-full object-cover ${isVideoReady ? 'visible opacity-100' : 'invisible opacity-0'}`}
+              className="absolute inset-0 w-full h-full object-cover"
             >
               <source src="/images/hero/hero-bg.mp4" type="video/mp4" />
             </video>
