@@ -58,7 +58,7 @@ export default function Hero() {
               playsInline
               preload="none"
               poster="/images/hero/hero-poster.jpg"
-              onCanPlay={() => setIsVideoReady(true)}
+              onPlaying={() => setIsVideoReady(true)}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${isVideoReady ? 'opacity-100' : 'opacity-0'}`}
             >
               <source src="/images/hero/hero-bg.mp4" type="video/mp4" />
