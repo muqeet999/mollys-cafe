@@ -1,10 +1,18 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
+import Image from "next/image";
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const [mounted, setMounted] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const { scrollY, scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"]
@@ -31,18 +39,30 @@ export default function Hero() {
             filter: blurFilter,
             opacity: videoOpacity
           }}
-          className="absolute inset-0 w-full h-full origin-center"
+          className="absolute inset-0 w-full h-full origin-center bg-[#1A1817]"
         >
-          <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover"
-          >
-            <source src="/images/hero/hero-bg.mp4" type="video/mp4" />
-          </video>
+          {/* Optimized Priority Poster */}
+          <Image
+            src="/images/hero/hero-poster.jpg"
+            alt="Molly's Cafe Background"
+            fill
+            priority
+            className="object-cover"
+          />
+
+          {mounted && (
+            <video 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              preload="none"
+              onCanPlay={() => setIsVideoReady(true)}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${isVideoReady ? 'opacity-100' : 'opacity-0'}`}
+            >
+              <source src="/images/hero/hero-bg.mp4" type="video/mp4" />
+            </video>
+          )}
           
           <div className="absolute inset-0 bg-gradient-to-b from-[#1A1817]/60 via-transparent to-[#1A1817] pointer-events-none" />
         </motion.div>
