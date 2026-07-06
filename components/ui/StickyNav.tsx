@@ -129,20 +129,20 @@ export default function StickyNav() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: "-100%" }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "-100%" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
             className="fixed inset-0 z-[55] bg-[#1A1817] flex flex-col items-center justify-center px-6 md:hidden"
           >
             <div className="flex flex-col items-center gap-10 w-full">
               {NAV_LINKS.map((item, i) => (
                 <motion.div
                   key={item.name}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4, delay: i * 0.1 + 0.2, ease: "easeOut" }}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.4, delay: i * 0.1 + 0.1, ease: "easeOut" }}
                 >
                   {item.isExternal ? (
                     <a
