@@ -41,15 +41,7 @@ export default function Hero() {
           }}
           className="absolute inset-0 w-full h-full origin-center bg-[#1A1817]"
         >
-          {/* Optimized Priority Poster */}
-          <Image
-            src="/images/hero/hero-poster.jpg"
-            alt="Molly's Cafe Background"
-            fill
-            priority
-            className="object-cover"
-          />
-
+          {/* Video Background (Bottom Layer) */}
           {mounted && (
             <video 
               autoPlay 
@@ -59,11 +51,22 @@ export default function Hero() {
               preload="none"
               poster="/images/hero/hero-poster.jpg"
               onPlaying={() => setIsVideoReady(true)}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${isVideoReady ? 'opacity-100' : 'opacity-0'}`}
+              className="absolute inset-0 w-full h-full object-cover"
             >
               <source src="/images/hero/hero-bg.mp4" type="video/mp4" />
             </video>
           )}
+
+          {/* Optimized Priority Poster (Top Layer) */}
+          <div className={`absolute inset-0 w-full h-full z-10 transition-opacity duration-1000 ease-in-out ${isVideoReady ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+            <Image
+              src="/images/hero/hero-poster.jpg"
+              alt="Molly's Cafe Background"
+              fill
+              priority
+              className="object-cover"
+            />
+          </div>
           
           <div className="absolute inset-0 bg-gradient-to-b from-[#1A1817]/60 via-transparent to-[#1A1817] pointer-events-none" />
         </motion.div>
