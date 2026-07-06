@@ -1,26 +1,73 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Premium Editorial Typography — referencing the actual next/font CSS variables */
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-manrope), sans-serif;
+  --font-cursive: var(--font-pinyon), cursive;
+  
+  /* Luxury specific letter-spacing for subheadings */
+  --tracking-luxury: 0.15em;
+
+  /* Hospitality Color Tokens */
+  --color-crema: #F5EFE6;
+  --color-espresso: #2C1E16;
+  --color-forest: #1F3D2D;
+  --color-cinnamon: #C87941;
+  --color-stone: #E8E5DF;
+  
+  /* Animation Physics */
+  /* For large, dramatic reveals (Hero, Page Load) */
+  --ease-smooth: cubic-bezier(0.76, 0, 0.24, 1);
+  /* For snappy UI micro-interactions (Hover, Buttons) */
+  --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Fluid Layout Spacing (Mobile to Desktop) */
+  --spacing-fluid-x: clamp(1.5rem, 5vw, 5rem);
+  --spacing-fluid-y: clamp(4rem, 10vw, 10rem);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html, body {
+    background-color: var(--color-crema);
+    color: var(--color-espresso);
+    overflow-x: hidden;
+    /* Typography Rendering Polish */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
-}
+  
+  /* Text selection highlight */
+  ::selection {
+    background-color: var(--color-espresso);
+    color: var(--color-crema);
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Hide default scrollbars for cinematic feel (Required for Lenis) */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /*
+   * RELOAD SAFETY NET
+   * Framer Motion sets inline `opacity: 0` during SSR for elements using initial={{ opacity: 0 }}.
+   * If whileInView's IntersectionObserver doesn't fire (race condition on reload), 
+   * elements stay permanently invisible.
+   * This CSS animation guarantees everything becomes visible within 2s as a fallback.
+   * Framer Motion's JS animation will still override this when it works (inline styles win),
+   * but if it fails, this ensures nothing stays hidden.
+   */
+  @keyframes revealFallback {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  [style*="opacity:0"], [style*="opacity: 0"] {
+    animation: revealFallback 1s ease-out 2s both;
+  }
 }
